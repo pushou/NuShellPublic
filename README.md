@@ -1,4 +1,4 @@
-# Public NuShell Script 
+# Public NuShell Scripts 
 ## security
 ### GenCommand.nu script that generates a NuShell command.
 
