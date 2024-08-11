@@ -1,6 +1,6 @@
 # Public NuShell Script 
 ## security
-GenCommandnu. script generate a NuShell command.
+### GenCommand.nu script that generates a NuShell command.
 
 This command is built from reading different type of security logs :
 - suricata eve.json
