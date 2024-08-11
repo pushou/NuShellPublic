@@ -27,5 +27,5 @@ def main [
   let champs = ($colonnes_quotées | str join  " ")
   let commande_assemblée =  $commande_données + " |" + $commande_supprime_vides + "|" + $commande_nettoyage + "|" + "select -i " + $champs
   echo $commande_assemblée
-  #nu -c $macommande
+  #nu -c $macommande_assemblée
 }
