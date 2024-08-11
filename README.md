@@ -10,6 +10,7 @@ This script:
 - generates quoted columns
 - plugs data holes
 - flatten cells that contains [].
+- normalizes tables and permit csv output for further processing. 
 
 
 #### use: GenCommand.nu eve.json -f eve
