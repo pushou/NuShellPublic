@@ -2,19 +2,26 @@
 ## security
 ### GenCommand.nu script that generates a NuShell command.
 
+#### prerequisites
+- nu shell installed (0.96)
+- jq installed
+- Linux ? (not tested on Windows)
+  
 This command is built from reading different type of security logs :
 - suricata eve.json
 - certipy output
+
+
      
 This script:
 - generates quoted columns
 - plugs data holes
 - flatten cells that contains [].
 - normalizes tables and permit csv output for further processing. 
-- generate a result.csv file where you can find the result of the command and import  it into a spreadsheet.
-- generate a command.nu file you can source:
+- generate a /tmp/result.csv file where you can find the result of the command and import  it into a spreadsheet.
+- generate a /tmp/command.nu file you can source:
 ```nu
-    source command.nu
+    source /tmp/command.nu
     # use $tableau variable to process the data 
     $tableau|group-by flow_id? --to-table|where group == "587566051547044"|flatten
 ```
