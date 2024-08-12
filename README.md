@@ -18,7 +18,7 @@ This script:
     # use $tableau variable to process the data 
     $tableau|group-by flow_id? --to-table|where group == "587566051547044"|flatten
 ```
-Copy paste the result of the command into nu:
+you can also copy-paste the result of the command into nu:
 ```nu 
 GenCommand.nu eve.json -f eve
 ```
