@@ -12,7 +12,7 @@ This script:
 - flatten cells that contains [].
 - normalizes tables and permit csv output for further processing. 
 - generate a result.csv file where you can find the result of the command and import  it into a spreadsheet.
-- generate a command.nu you can source:
+- generate a command.nu file you can source:
 ```nu
     source command.nu
     # use $tableau variable to process the data 
