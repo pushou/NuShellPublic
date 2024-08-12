@@ -4,9 +4,11 @@
 # this script generate a NuShell command. 
 # this command is built from reading different type of security logs (suricata eve.json, certipy output) 
 # generate quoted columns , plugs data hole, flatten cells that contains [].
-# use GenCommand.nu eve.json -f eve
-
-def main [
+# usages:
+# GenCommand.nu eve.json -f eve
+# use GenCommand.nu; GenCommand eve.json -f eve
+use std
+export def main [
   fichier: string, 
   --format (-f): string] string -> string {
   let commande_données = match $format {
@@ -26,6 +28,9 @@ def main [
   let commande_nettoyage =  $colonnes_quotées |each {|it| | $"update ($it) {$in |str join ';' }|"  }| str join " "|str trim  --char '|'
   let champs = ($colonnes_quotées | str join  " ")
   let commande_assemblée =  $commande_données + " |" + $commande_supprime_vides + "|" + $commande_nettoyage + "|" + "select -i " + $champs
-  echo $commande_assemblée
-  #nu -c $macommande_assemblée
+  print $commande_assemblée
+  let commande_fichier =  "let tableau = " + $commande_données + " |" + $commande_supprime_vides + "|" + $commande_nettoyage
+  echo $commande_fichier|save -f commande.nu
+  let commande_to_csv = $commande_assemblée + " | to csv | save -f result.csv"
+  nu -c $commande_to_csv
 }
