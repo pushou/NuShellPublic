@@ -22,8 +22,7 @@ export def main [
       "eveDns"    => {"open " + $fichier + "|where event_type == "données"| flatten"},
       "eve"       => {"open " + $fichier + "| flatten"},
       # date read from json file generated via "certipy find .."  
-      "adcs"      => {"open " + $fichier + "|get data|get properties"},
-      _           => {"blanc"}
+      "adcsf"      => {"open " + $fichier + "|get data|get properties"}
   }
   let données = match $format {
       "eveAlert"  => (open $fichier | where event_type == "alert"| flatten),
