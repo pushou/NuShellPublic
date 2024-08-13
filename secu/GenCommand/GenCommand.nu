@@ -7,7 +7,6 @@
 # usages:
 # GenCommand.nu eve.json -f eve
 # use GenCommand.nu; GenCommand eve.json -f eve
-use std
 export def main [
   fichier: string, 
   --format (-f): string] string -> string {
