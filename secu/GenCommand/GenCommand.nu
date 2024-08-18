@@ -7,12 +7,18 @@
 # usages:
 # GenCommand.nu eve.json -f eve
 # use GenCommand.nu; GenCommand eve.json -f eve
+# use GenCommand.nu; GenCommand  -f eve
+# output : /tmp/commande.nu (source it to get $tableau)
+# output : /tmp/result.csv (import it in libre office)
+
+
+
 export def main [
   fichier: string, 
   --format (-f): string] string -> string {
   let nom_de_base = $fichier| path basename
-  let commande_jq = if ($format|str starts-with 'eve') {"cat " +  $fichier + "|jq -s '.'|save -f /tmp/" + $nom_de_base} else {}
-  nu -c $commande_jq
+  let commande_jq = if ($format|str starts-with 'eve') {"cat " +  $fichier + "|jq -s '.'|save -f /tmp/" + $nom_de_base} else {"cat " +  $fichier + "|save -f /tmp/" + $nom_de_base}
+  nu -c  $commande_jq
   let fichier = "/tmp/" + $nom_de_base
   let commande_données = match $format {
       # date read from suricata eve.son file 
@@ -21,8 +27,9 @@ export def main [
       "eveDns"    => {"open " + $fichier + "|where event_type == "données"| flatten"},
       "eve"       => {"open " + $fichier + "| flatten"},
       # date read from json file generated via "certipy find .."  
-      "adcsf"      => {"open " + $fichier + "|get data|get properties"}
+      "adcs"      => {"open " + $fichier + "|get data|get properties"}
   }
+  #print $commande_données
   let données = match $format {
       "eveAlert"  => (open $fichier | where event_type == "alert"| flatten),
       "eveFlow"   => (open $fichier | where event_type == "flow"| flatten)
@@ -38,7 +45,9 @@ export def main [
   let commande_assemblée =  $commande_données + " |" + $commande_supprime_vides + "|" + $commande_nettoyage + "|" + "select -i " + $champs
   print $commande_assemblée
   let commande_fichier =  "let tableau = " + $commande_données + " |" + $commande_supprime_vides + "|" + $commande_nettoyage
+
   echo $commande_fichier|save -f /tmp/commande.nu
-  let commande_to_csv = $commande_assemblée + " | to csv | save -f /tmp/result.csv"
+  let commande_to_csv =  $commande_assemblée + "|to csv|save -f /tmp/result.csv"
+  
   nu -c $commande_to_csv
 }
