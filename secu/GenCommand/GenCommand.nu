@@ -17,8 +17,8 @@ export def main [
   fichier: string, 
   --format (-f): string] string -> string {
   let nom_de_base = $fichier| path basename
-  let commande_jq = if ($format|str starts-with 'eve') {"cat " +  $fichier + "|jq -s '.'|save -f /tmp/" + $nom_de_base} else {"cat " +  $fichier + "|save -f /tmp/" + $nom_de_base}
-  nu -c  $commande_jq
+  let commande_ml = if ($format|str starts-with 'eve') {"cat " +  $fichier + "|from json --objects|save -f /tmp/" + $nom_de_base} else {"cat " +  $fichier + "|save -f /tmp/" + $nom_de_base}
+  nu -c  $commande_ml
   let fichier = "/tmp/" + $nom_de_base
   let commande_données = match $format {
       # date read from suricata eve.son file 
