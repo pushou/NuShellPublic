@@ -28,6 +28,7 @@ export def main [
       "eve"       => {"open " + $fichier + "| flatten"},
       # date read from json file generated via "certipy find .."  
       "adcs"      => {"open " + $fichier + "|get data|get properties"}
+      "dockerbench"      => {"open " + $fichier + "|flatten|flatten|flatten|flatten"}
   }
   #print $commande_données
   let données = match $format {
@@ -36,7 +37,10 @@ export def main [
       "eveDns"    => (open $fichier | where event_type == "dns"| flatten)
       "eve"       => (open $fichier | flatten)
       "adcs"      => (open $fichier | get data|get properties)
+      "dockerbench"      => (open $fichier | flatten|flatten|flatten|flatten)
   }
+  #print $données
+
 
   let colonnes_quotées = $données |columns|each {$in |str replace -r '^' "'"}|each {$in |str replace -r '$' "'"}
   let commande_supprime_vides =  $colonnes_quotées |each {|it| $"default ($it|str replace "'" "'nodta-"|str join "-") ($it) \|"}| str join " "|str trim  --char '|'
