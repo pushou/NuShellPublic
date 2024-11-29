@@ -1,6 +1,5 @@
 #!/usr/bin/env nu
 
-# prereq: jq
 # this script generate a NuShell command. 
 # this command is built from reading different type of security logs (suricata eve.json, certipy output) 
 # generate quoted columns , plugs data hole, flatten cells that contains [].
@@ -28,6 +27,7 @@ export def main [
       "eve"       => {"open " + $fichier + "| flatten"},
       # date read from json file generated via "certipy find .."  
       "adcs"      => {"open " + $fichier + "|get data|get properties"}
+      "chainsaw"  => {"open " + $fichier + "|get document|get data|get Event|flatten|flatten"}
       "dockerbench"      => {"open " + $fichier + "|flatten|flatten|flatten|flatten"}
   }
   #print $commande_données
@@ -37,6 +37,7 @@ export def main [
       "eveDns"    => (open $fichier | where event_type == "dns"| flatten)
       "eve"       => (open $fichier | flatten)
       "adcs"      => (open $fichier | get data|get properties)
+      "chainsaw"      => (open $fichier | get document|get data|get Event|flatten|flatten)
       "dockerbench"      => (open $fichier | flatten|flatten|flatten|flatten)
   }
   #print $données
